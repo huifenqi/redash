@@ -111,13 +111,13 @@ class BaseQueryListResource(BaseResource):
                 search_term,
                 self.current_user.group_ids,
                 self.current_user.id,
-                include_drafts=True,
+                include_drafts=False,
             )
         else:
             results = models.Query.all_queries(
                 self.current_user.group_ids,
                 self.current_user.id,
-                include_drafts=True,
+                include_drafts=False,
             )
         return filter_by_tags(results, models.Query.tags)
 
@@ -218,7 +218,7 @@ class QueryListResource(BaseQueryListResource):
         query_def['user'] = self.current_user
         query_def['data_source'] = data_source
         query_def['org'] = self.current_org
-        query_def['is_draft'] = True
+        query_def['is_draft'] = False
         query = models.Query.create(**query_def)
         models.db.session.add(query)
         models.db.session.commit()
